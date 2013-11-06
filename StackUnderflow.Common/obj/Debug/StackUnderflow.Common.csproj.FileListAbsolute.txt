@@ -1,0 +1,8 @@
+c:\users\benny\documents\visual studio 2012\Projects\StackUnderflow\StackUnderflow.Common\obj\Debug\StackUnderflow.Common.csprojResolveAssemblyReference.cache
+c:\users\benny\documents\visual studio 2012\Projects\StackUnderflow\StackUnderflow.Common\bin\Debug\StackUnderflow.Common.dll.config
+c:\users\benny\documents\visual studio 2012\Projects\StackUnderflow\StackUnderflow.Common\bin\Debug\StackUnderflow.Common.dll
+c:\users\benny\documents\visual studio 2012\Projects\StackUnderflow\StackUnderflow.Common\bin\Debug\StackUnderflow.Common.pdb
+c:\users\benny\documents\visual studio 2012\Projects\StackUnderflow\StackUnderflow.Common\bin\Debug\EntityFramework.dll
+c:\users\benny\documents\visual studio 2012\Projects\StackUnderflow\StackUnderflow.Common\bin\Debug\EntityFramework.xml
+c:\users\benny\documents\visual studio 2012\Projects\StackUnderflow\StackUnderflow.Common\obj\Debug\StackUnderflow.Common.dll
+c:\users\benny\documents\visual studio 2012\Projects\StackUnderflow\StackUnderflow.Common\obj\Debug\StackUnderflow.Common.pdb

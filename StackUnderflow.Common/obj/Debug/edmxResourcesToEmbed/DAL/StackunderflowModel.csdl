@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="stackunderflowModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="stackunderflowEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="User" EntityType="stackunderflowModel.User" />
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Type="Int32" Name="user_id" Nullable="false" />
+    <Property Type="String" Name="user_name" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="password" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="email" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Type="Boolean" Name="registered" Nullable="false" />
+    <Property Type="Boolean" Name="admin" Nullable="false" />
+  </EntityType>
+</Schema>
