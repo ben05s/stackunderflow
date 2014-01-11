@@ -9,21 +9,23 @@ namespace StackUnderflow.Common.BL
 {
     public interface IUserService
     {
-        /*USER methods*/
         Boolean CreateUser(string username, string password, string email);
         Boolean RegisterUser(string username);
         Boolean LoginUser(string username, string password);
         Boolean UpdatePassword(string username, string newpassword, string oldpassword);
 
-        IQueryable<User> GetAllUsers();
-        IQueryable<User> SearchForUsers(string query);
         User GetUser(int user_id);
 
-        /*QUESTION & ANSWER methods*/
-        IQueryable<Question> GetAllQuestions();
-        Boolean CreateQuestion(string username, string title, string content);
-        IQueryable<Question> SearchForQuestions(string query);
+        IQueryable<User> GetAllUsers(int page);
+        IQueryable<User> SearchForUsers(string query, int page);
+        IQueryable<Question> GetAllQuestions(int page);
+        IQueryable<Question> SearchForQuestions(string query, int page);
 
+        Boolean CreateQuestion(string username, string title, string content);
+        Boolean CreateAnswer(int user_id, int question_id, string content);
+
+        int RateUpAnswer(int answer_id);
+        int RateDownAnswer(int answer_id);
 
         void Save();
     }
