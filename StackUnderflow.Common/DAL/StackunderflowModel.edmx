@@ -27,11 +27,11 @@
             <PropertyRef Name="answer_id" />
           </Key>
           <Property Name="answer_id" Type="int" Nullable="false" />
-          <Property Name="question_id" Type="int" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="content" Type="nchar" Nullable="false" MaxLength="100" />
           <Property Name="rating" Type="int" />
           <Property Name="created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="question_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Question">
           <Key>
@@ -42,7 +42,6 @@
           <Property Name="title" Type="nchar" Nullable="false" MaxLength="100" />
           <Property Name="content" Type="nchar" MaxLength="100" />
           <Property Name="created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
-          <Property Name="admin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -147,7 +146,6 @@
           <Property Type="String" Name="title" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Type="String" Name="content" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Type="Binary" Name="created" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <Property Type="Boolean" Name="admin" Nullable="false" />
           <NavigationProperty Name="User" Relationship="stackunderflowModel.FK_Question_ToTable" FromRole="Question" ToRole="User" />
           <NavigationProperty Name="Answer" Relationship="stackunderflowModel.FK_Answer_ToTable_1" FromRole="Question" ToRole="Answer" />
         </EntityType>
@@ -220,7 +218,6 @@
           <EntitySetMapping Name="Question">
             <EntityTypeMapping TypeName="stackunderflowModel.Question">
               <MappingFragment StoreEntitySet="Question">
-                <ScalarProperty Name="admin" ColumnName="admin" />
                 <ScalarProperty Name="created" ColumnName="created" />
                 <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="title" ColumnName="title" />
