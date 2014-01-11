@@ -6,8 +6,44 @@
     <edmx:StorageModels>
     <Schema Namespace="stackunderflowModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="stackunderflowModelStoreContainer">
+          <EntitySet Name="Answer" EntityType="stackunderflowModel.Store.Answer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Question" EntityType="stackunderflowModel.Store.Question" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="stackunderflowModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Answer_ToTable" Association="stackunderflowModel.Store.FK_Answer_ToTable">
+            <End Role="User" EntitySet="User" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_ToTable_1" Association="stackunderflowModel.Store.FK_Answer_ToTable_1">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_ToTable" Association="stackunderflowModel.Store.FK_Question_ToTable">
+            <End Role="User" EntitySet="User" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="answer_id" />
+          </Key>
+          <Property Name="answer_id" Type="int" Nullable="false" />
+          <Property Name="question_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="content" Type="nchar" Nullable="false" MaxLength="100" />
+          <Property Name="rating" Type="int" />
+          <Property Name="created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="question_id" />
+          </Key>
+          <Property Name="question_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="nchar" Nullable="false" MaxLength="100" />
+          <Property Name="content" Type="nchar" MaxLength="100" />
+          <Property Name="created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="admin" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="user_id" />
@@ -19,12 +55,62 @@
           <Property Name="registered" Type="bit" Nullable="false" />
           <Property Name="admin" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Answer_ToTable">
+          <End Role="User" Type="stackunderflowModel.Store.User" Multiplicity="1" />
+          <End Role="Answer" Type="stackunderflowModel.Store.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_ToTable_1">
+          <End Role="Question" Type="stackunderflowModel.Store.Question" Multiplicity="1" />
+          <End Role="Answer" Type="stackunderflowModel.Store.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="question_id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_ToTable">
+          <End Role="User" Type="stackunderflowModel.Store.User" Multiplicity="1" />
+          <End Role="Question" Type="stackunderflowModel.Store.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="stackunderflowModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="stackunderflowEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="User" EntityType="stackunderflowModel.User" />
+          <EntitySet Name="Answer" EntityType="stackunderflowModel.Answer" />
+          <EntitySet Name="Question" EntityType="stackunderflowModel.Question" />
+          <AssociationSet Name="FK_Answer_ToTable" Association="stackunderflowModel.FK_Answer_ToTable">
+            <End Role="User" EntitySet="User" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_ToTable" Association="stackunderflowModel.FK_Question_ToTable">
+            <End Role="User" EntitySet="User" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_ToTable_1" Association="stackunderflowModel.FK_Answer_ToTable_1">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -36,7 +122,71 @@
           <Property Type="String" Name="email" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Type="Boolean" Name="registered" Nullable="false" />
           <Property Type="Boolean" Name="admin" Nullable="false" />
+          <NavigationProperty Name="Answer" Relationship="stackunderflowModel.FK_Answer_ToTable" FromRole="User" ToRole="Answer" />
+          <NavigationProperty Name="Question" Relationship="stackunderflowModel.FK_Question_ToTable" FromRole="User" ToRole="Question" />
         </EntityType>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="answer_id" />
+          </Key>
+          <Property Type="Int32" Name="answer_id" Nullable="false" />
+          <Property Type="Int32" Name="user_id" Nullable="false" />
+          <Property Type="String" Name="content" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Type="Int32" Name="rating" />
+          <Property Type="Binary" Name="created" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="User" Relationship="stackunderflowModel.FK_Answer_ToTable" FromRole="Answer" ToRole="User" />
+          <Property Type="Int32" Name="question_id" Nullable="false" />
+          <NavigationProperty Name="Question" Relationship="stackunderflowModel.FK_Answer_ToTable_1" FromRole="Answer" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="question_id" />
+          </Key>
+          <Property Type="Int32" Name="question_id" Nullable="false" />
+          <Property Type="Int32" Name="user_id" Nullable="false" />
+          <Property Type="String" Name="title" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="content" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Type="Binary" Name="created" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Type="Boolean" Name="admin" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="stackunderflowModel.FK_Question_ToTable" FromRole="Question" ToRole="User" />
+          <NavigationProperty Name="Answer" Relationship="stackunderflowModel.FK_Answer_ToTable_1" FromRole="Question" ToRole="Answer" />
+        </EntityType>
+        <Association Name="FK_Answer_ToTable">
+          <End Type="stackunderflowModel.User" Role="User" Multiplicity="1" />
+          <End Type="stackunderflowModel.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_ToTable">
+          <End Type="stackunderflowModel.User" Role="User" Multiplicity="1" />
+          <End Type="stackunderflowModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_ToTable_1">
+          <End Type="stackunderflowModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="stackunderflowModel.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="question_id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -52,6 +202,30 @@
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="user_name" ColumnName="user_name" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Answer">
+            <EntityTypeMapping TypeName="stackunderflowModel.Answer">
+              <MappingFragment StoreEntitySet="Answer">
+                <ScalarProperty Name="question_id" ColumnName="question_id" />
+                <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="answer_id" ColumnName="answer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Question">
+            <EntityTypeMapping TypeName="stackunderflowModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="admin" ColumnName="admin" />
+                <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="question_id" ColumnName="question_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

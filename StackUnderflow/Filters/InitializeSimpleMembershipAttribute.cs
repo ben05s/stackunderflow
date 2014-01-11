@@ -37,8 +37,7 @@ namespace StackUnderflow.Filters
                             ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
                         }
                     }
-
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                    WebSecurity.InitializeDatabaseConnection("stackunderflowEntities", "User", "user_id", "user_name", autoCreateTables: false);
                 }
                 catch (Exception ex)
                 {

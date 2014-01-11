@@ -12,22 +12,16 @@ namespace StackUnderflow.Common.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Answer
     {
-        public User()
-        {
-            this.Answer = new HashSet<Answer>();
-            this.Question = new HashSet<Question>();
-        }
-    
+        public int answer_id { get; set; }
         public int user_id { get; set; }
-        public string user_name { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
-        public bool registered { get; set; }
-        public bool admin { get; set; }
+        public string content { get; set; }
+        public Nullable<int> rating { get; set; }
+        public byte[] created { get; set; }
+        public int question_id { get; set; }
     
-        public virtual ICollection<Answer> Answer { get; set; }
-        public virtual ICollection<Question> Question { get; set; }
+        public virtual User User { get; set; }
+        public virtual Question Question { get; set; }
     }
 }

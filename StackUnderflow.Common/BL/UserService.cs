@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace StackUnderflow.Common.BL
 {
-    class UserService : IUserService
+    public class UserService : IUserService
     {
-        private DAL.stackunderflowEntities _dal;
-        public UserService(StackUnderflow.Common.DAL.stackunderflowEntities dal)
+        private DAL.stackunderflowEntities _dal = new DAL.stackunderflowEntities();
+        public UserService()
         {
-            _dal = dal;
         }
 
         public IQueryable<User> GetAllUsers(int page)

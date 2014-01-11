@@ -6,6 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="8374133aa5bf4899b872bb65f7dbc1ea" Name="Diagram1">
         <EntityTypeShape EntityType="stackunderflowModel.User" Width="1.5" PointX="0.75" PointY="0.625" />
+        <EntityTypeShape EntityType="stackunderflowModel.Answer" Width="1.5" PointX="0.60202865330596855" PointY="27.989073066035786" />
+        <EntityTypeShape EntityType="stackunderflowModel.Question" Width="1.5" PointX="10.959932773821024" PointY="11.342642267859841" />
+        <AssociationConnector Association="stackunderflowModel.FK_Answer_ToTable" />
+        <AssociationConnector Association="stackunderflowModel.FK_Question_ToTable" />
+        <AssociationConnector Association="stackunderflowModel.FK_Answer_ToTable_1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
