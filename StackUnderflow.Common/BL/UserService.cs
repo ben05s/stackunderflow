@@ -12,37 +12,84 @@ namespace StackUnderflow.Common.BL
         private DAL.stackunderflowEntities _dal = new DAL.stackunderflowEntities();
         public UserService() { }
 
-        public Boolean CreateUser(string username, string password, string email)
+        public User GetUser(int id)
         {
-            var usr = new User();
-            return false;
+            var user = _dal.User.Find(id);
+            return user;
         }
 
-        public Boolean RegisterUser(string username)
+        public User GetUser(string username)
         {
-            return false;
+            return _dal.User.SingleOrDefault(i => i.user_name == username);
+        }
+
+        public Boolean CreateUser(string username, string password, string email)
+        {
+            if (GetUser(username) != null)
+            {
+                return false;
+            }
+            else
+            {
+                var user = new User();
+                user.user_name = username;
+                user.password = password;
+                user.email = email;
+                user.registered = false;
+                user.admin = false;
+
+                _dal.User.Add(user);
+                Save();
+                return true;
+            }
+        }
+
+        public Boolean RegisterUser(int user_id)
+        {
+            var user = GetUser(user_id);
+            if (user != null)
+            {
+                user.registered = true;
+                Save();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public Boolean LoginUser(string username, string password)
         {
-            return false;
+            var user = GetUser(username);
+            if (user != null && user.password == password)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public Boolean UpdatePassword(string username, string newpassword, string oldpassword)
+        public Boolean UpdatePassword(int user_id, string newpassword, string oldpassword)
         {
-            return false;
-        }
-
-        public User GetUser(int id)
-        {
-            var user = _dal.User.FirstOrDefault(i => i.user_id == id);
-            return user;
+            var user = GetUser(user_id); 
+            if (user != null && user.password == oldpassword && oldpassword != newpassword)
+            {
+                user.password = newpassword;
+                Save();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public IQueryable<User> GetAllUsers(int page)
         {
             return _dal.User
-                .Where(i => i.registered == true)
                 .OrderBy(i => i.user_name)
                 .Skip(page * 50)
                 .Take(50);
@@ -50,40 +97,68 @@ namespace StackUnderflow.Common.BL
 
         public IQueryable<User> SearchForUsers(string query, int page)
         {
-            return null;
+            return _dal.User
+                .Where(i => i.user_name.ToLower().Contains(query.ToLower()))
+                .OrderBy(i => i.user_name)
+                .Skip(page * 50)
+                .Take(50);
         }
 
         public IQueryable<Question> GetAllQuestions(int page)
         {
-            return null;
+            return _dal.Question
+                .OrderBy(i => i.created)
+                .Skip(page * 50)
+                .Take(50);
         }
 
         public IQueryable<Question> SearchForQuestions(string query, int page)
         {
-            return null;
+            return _dal.Question
+                .Where(i => i.title.ToLower().Contains(query.ToLower()))
+                .OrderBy(i => i.created)
+                .Skip(page * 50)
+                .Take(50);
         }
 
-        public Boolean CreateQuestion(string username, string title, string content)
+        public Boolean CreateQuestion(int user_id, string title, string content)
         {
-            return false;
+            var question = new Question();
+            question.title = title;
+            question.content = content;
+            question.user_id = user_id;
+            Save();
+            return true;
         }
 
         public Boolean CreateAnswer(int user_id, int question_id, string content)
         {
-            return false;
+            var answer = new Answer();
+            answer.content = content;
+            answer.question_id = question_id;
+            answer.user_id = user_id;
+            answer.rating = 0;
+            Save();
+            return true;
         }
 
         public int RateUpAnswer(int answer_id)
         {
-            return 0;
+            var answer = _dal.Answer.Find(answer_id);
+            answer.rating++;
+            Save();
+            return answer.rating.Value;
         }
 
         public int RateDownAnswer(int answer_id)
         {
-            return 0;
+            var answer = _dal.Answer.Find(answer_id);
+            answer.rating--;
+            Save();
+            return answer.rating.Value;
         }
 
-        public void Save()
+        private void Save()
         {
             _dal.SaveChanges();
         }

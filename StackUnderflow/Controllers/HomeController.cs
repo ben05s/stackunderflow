@@ -19,22 +19,22 @@ namespace StackUnderflow.Controllers
 
         public ActionResult Index()
         {
-            var a = _userService.GetAllUsers(0).Count();
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application." + a;
+            var questions = _userService.GetAllQuestions(0);
 
-            return View();
+            return View(questions);
+        }
+
+        [HttpGet]
+        public ActionResult Search(string query)
+        {
+            var questions = _userService.SearchForQuestions(query, 0);
+
+            return View(questions);
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }
