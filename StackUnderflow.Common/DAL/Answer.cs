@@ -18,7 +18,7 @@ namespace StackUnderflow.Common.DAL
         public int user_id { get; set; }
         public string content { get; set; }
         public Nullable<int> rating { get; set; }
-        public byte[] created { get; set; }
+        public System.DateTime created { get; set; }
         public int question_id { get; set; }
     
         public virtual User User { get; set; }

@@ -112,6 +112,11 @@ namespace StackUnderflow.Common.BL
                 .Take(50);
         }
 
+        public Question GetQuestion(int id)
+        {
+            return _dal.Question.Find(id);
+        }
+
         public IQueryable<Question> SearchForQuestions(string query, int page)
         {
             return _dal.Question
@@ -121,23 +126,38 @@ namespace StackUnderflow.Common.BL
                 .Take(50);
         }
 
-        public Boolean CreateQuestion(int user_id, string title, string content)
+        public IQueryable<Answer> GetAllAnswers(int question_id, int page)
+        {
+            return _dal.Answer
+                .Where(i => i.question_id == question_id)
+                .OrderBy(i => i.rating)
+                .Skip(page * 50)
+                .Take(50);
+        }
+
+        public Boolean CreateQuestion(string username, string title, string content)
         {
             var question = new Question();
             question.title = title;
             question.content = content;
-            question.user_id = user_id;
+            question.user_id = GetUser(username).user_id;
+            question.created = DateTime.Now;
+
+            _dal.Question.Add(question);
             Save();
             return true;
         }
 
-        public Boolean CreateAnswer(int user_id, int question_id, string content)
+        public Boolean CreateAnswer(string username, int question_id, string content)
         {
             var answer = new Answer();
             answer.content = content;
             answer.question_id = question_id;
-            answer.user_id = user_id;
+            answer.user_id = GetUser(username).user_id;
             answer.rating = 0;
+            answer.created = DateTime.Now;
+
+            _dal.Answer.Add(answer);
             Save();
             return true;
         }

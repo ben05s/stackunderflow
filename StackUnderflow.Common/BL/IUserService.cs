@@ -20,10 +20,12 @@ namespace StackUnderflow.Common.BL
         IQueryable<User> GetAllUsers(int page);
         IQueryable<User> SearchForUsers(string query, int page);
         IQueryable<Question> GetAllQuestions(int page);
+        Question GetQuestion(int id);
         IQueryable<Question> SearchForQuestions(string query, int page);
+        IQueryable<Answer> GetAllAnswers(int question_id, int page);
 
-        Boolean CreateQuestion(int user_id, string title, string content);
-        Boolean CreateAnswer(int user_id, int question_id, string content);
+        Boolean CreateQuestion(string username, string title, string content);
+        Boolean CreateAnswer(string username, int question_id, string content);
 
         int RateUpAnswer(int answer_id);
         int RateDownAnswer(int answer_id);

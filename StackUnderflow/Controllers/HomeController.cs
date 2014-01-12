@@ -1,4 +1,5 @@
 ﻿using StackUnderflow.Common.BL;
+using StackUnderflow.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,16 +21,53 @@ namespace StackUnderflow.Controllers
         public ActionResult Index()
         {
             var questions = _userService.GetAllQuestions(0);
+            return View(GetQuestionsViewModelCollection(questions));
+        }
 
-            return View(questions);
+        public ActionResult Details(int id)
+        {
+            var answers = _userService.GetAllAnswers(id, 0);
+            return View(GetAnswersViewModelCollection(answers));
         }
 
         [HttpGet]
         public ActionResult Search(string query)
         {
             var questions = _userService.SearchForQuestions(query, 0);
+            return View("Index", GetQuestionsViewModelCollection(questions));
+        }
 
-            return View(questions);
+        [Authorize]
+        public ActionResult Ask()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Ask(string title, string content)
+        {
+            if (_userService.CreateQuestion(User.Identity.Name, title, content))
+            {
+                var questions = _userService.GetAllQuestions(0);
+                return View("Index", GetQuestionsViewModelCollection(questions));
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [Authorize]
+        public ActionResult Answer()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Rate(Boolean positive)
+        {
+            return View();
         }
 
         public ActionResult About()
@@ -37,6 +75,26 @@ namespace StackUnderflow.Controllers
             ViewBag.Message = "Your app description page.";
 
             return View();
+        }
+
+        private static List<QuestionViewModel> GetQuestionsViewModelCollection(IQueryable<Common.DAL.Question> questions)
+        {
+            var viewmodel_questions = new List<QuestionViewModel>();
+            foreach (var question in questions)
+            {
+                viewmodel_questions.Add(new QuestionViewModel(question));
+            }
+            return viewmodel_questions;
+        }
+
+        private static List<AnswerViewModel> GetAnswersViewModelCollection(IQueryable<Common.DAL.Answer> answers)
+        {
+            var viewmodel_answers = new List<AnswerViewModel>();
+            foreach (var answer in answers)
+            {
+                viewmodel_answers.Add(new AnswerViewModel(answer));
+            }
+            return viewmodel_answers;
         }
     }
 }

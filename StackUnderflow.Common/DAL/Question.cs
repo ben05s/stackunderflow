@@ -23,7 +23,7 @@ namespace StackUnderflow.Common.DAL
         public int user_id { get; set; }
         public string title { get; set; }
         public string content { get; set; }
-        public byte[] created { get; set; }
+        public System.DateTime created { get; set; }
     
         public virtual User User { get; set; }
         public virtual ICollection<Answer> Answer { get; set; }
