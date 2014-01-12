@@ -12,7 +12,8 @@
    <h4 style="color: red"> @TempData["Error"] </h4>
 
 <h2>Use a local account to log in.</h2>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+@using (Html.BeginForm(new { ReturnUrl = Request.QueryString["ReturnUrl"] }))
+{
     @Html.ValidationSummary(true)
 
     <fieldset>

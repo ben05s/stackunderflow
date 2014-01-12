@@ -136,7 +136,7 @@ namespace StackUnderflow.Common.BL
         public IQueryable<Question> SearchForQuestions(string query, int page)
         {
             return _dal.Question
-                .Where(i => i.title.ToLower().Contains(query.ToLower()))
+                .Where(i => i.title.ToLower().Contains(query.ToLower()) )
                 .OrderBy(i => i.created)
                 .Skip(page * 50)
                 .Take(50);

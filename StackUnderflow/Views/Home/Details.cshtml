@@ -39,9 +39,15 @@
 }
 </table>
 
-@using (Html.BeginForm("Answer", "Home", FormMethod.Post))
-{
-    <input id="content" type="text" name="content" value="Your answer here..." />
-    <input id="question_id" type="hidden" name="question_id" value="@Model.currentQuestion.id" />
-    <input id="Answer" type="submit" value="Answer" />
+@if (Model.currentUser == null) {
+    <p>
+    @Html.ActionLink("Log in to answer", "Login", "Account", new { returnUrl = HttpContext.Current.Request.Url.LocalPath }, null)
+    </p>
+} else {
+    using (Html.BeginForm("Answer", "Home", FormMethod.Post))
+    {
+        <input id="content" type="text" name="content" value="Your answer here..." />
+        <input id="question_id" type="hidden" name="question_id" value="@Model.currentQuestion.id" />
+        <input id="Answer" type="submit" value="Answer" />
+    }
 }

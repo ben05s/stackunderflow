@@ -17,7 +17,6 @@ namespace StackUnderflow.Controllers
         {
             _userService = UserService;
         }
-
         public ActionResult Index()
         {
             var user = _userService.GetUser(User.Identity.Name);
@@ -56,6 +55,11 @@ namespace StackUnderflow.Controllers
             }
             var allUsers = _userService.GetAllUsers(0);
             var questions = _userService.SearchForQuestions(query, 0);
+            if (System.Linq.Enumerable.Count(questions) == 0)
+            {
+                questions = _userService.GetAllQuestions(0);
+                TempData["Error"] = "Es wurden keine Fragen gefunden";
+            }
             return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
         }
 

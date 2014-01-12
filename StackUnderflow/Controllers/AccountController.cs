@@ -41,6 +41,7 @@ namespace StackUnderflow.Controllers
                 if (_userService.LoginUser(model.Username, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.Username, model.RememberMe);
+                    
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
