@@ -130,5 +130,40 @@ namespace StackUnderflow.Controllers
             }
 
         }
+
+        //
+        // GET: /Account/ForgotPassword
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/ForgotPassword
+
+        [HttpPost]
+        public ActionResult ForgotPassword(ForgotPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                // ChangePassword will throw an exception rather
+                // than return false in certain failure scenarios.
+                
+                if (_userService.ForgotPassword(model.Username, model.Email, model.NewPassword))
+                {
+                    // Passwort wurde geändert
+                    return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Es wurde kein User mit diesen Daten gefunden!");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
     }
 }

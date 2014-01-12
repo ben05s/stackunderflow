@@ -13,6 +13,7 @@ namespace StackUnderflow.Common.BL
         Boolean RegisterUser(string user_name);
         Boolean LoginUser(string username, string password);
         Boolean UpdatePassword(int user_id, string newpassword, string oldpassword);
+        Boolean ForgotPassword(string user_name, string email, string newpassword);
 
         User GetUser(int id);
         User GetUser(string username);

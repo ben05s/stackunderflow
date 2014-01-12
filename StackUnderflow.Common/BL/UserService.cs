@@ -87,6 +87,22 @@ namespace StackUnderflow.Common.BL
             }
         }
 
+        public Boolean ForgotPassword(string user_name, string email, string newpassword)
+        {
+            var user = GetUser(user_name);
+            if (user != null && user.email == email)
+            {
+                user.password = newpassword;
+                Save();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
         public IQueryable<User> GetAllUsers(int page)
         {
             return _dal.User
