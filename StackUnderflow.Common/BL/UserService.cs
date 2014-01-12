@@ -44,9 +44,9 @@ namespace StackUnderflow.Common.BL
             }
         }
 
-        public Boolean RegisterUser(int user_id)
+        public Boolean RegisterUser(string user_name)
         {
-            var user = GetUser(user_id);
+            var user = GetUser(user_name);
             if (user != null)
             {
                 user.registered = true;

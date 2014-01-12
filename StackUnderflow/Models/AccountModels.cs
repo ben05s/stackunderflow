@@ -11,26 +11,26 @@ namespace StackUnderflow.Models
     public class RegisterModel
     {
         [Required]
-        [StringLength(10, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
+        [StringLength(10, ErrorMessage = "{0} darf maximal {1} Zeichen lang sein")]
         [Display(Name = "Username")]
         public string Username { get; set; }
 
         [Required]
-        //[EmailAddress]
-        [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.")]
+        [EmailAddress]
+        [StringLength(50, ErrorMessage = "{0} darf maximal {1} Zeichen lang sein.")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(10, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
+        [StringLength(10, ErrorMessage = "{0} darf maximal {1} Zeichen lang sein.")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Passwörter stimmen nicht überein.")]
         public string ConfirmPassword { get; set; }
     }
 

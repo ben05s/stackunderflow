@@ -26,10 +26,10 @@
           <Key>
             <PropertyRef Name="answer_id" />
           </Key>
-          <Property Name="answer_id" Type="int" Nullable="false" />
+          <Property Name="answer_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="question_id" Type="int" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
-          <Property Name="content" Type="nchar" Nullable="false" MaxLength="100" />
+          <Property Name="content" Type="text" Nullable="false" />
           <Property Name="rating" Type="int" />
           <Property Name="created" Type="datetime" Nullable="false" />
         </EntityType>
@@ -37,20 +37,20 @@
           <Key>
             <PropertyRef Name="question_id" />
           </Key>
-          <Property Name="question_id" Type="int" Nullable="false" />
+          <Property Name="question_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="user_id" Type="int" Nullable="false" />
-          <Property Name="title" Type="nchar" Nullable="false" MaxLength="100" />
-          <Property Name="content" Type="nchar" MaxLength="100" />
+          <Property Name="title" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="content" Type="text" />
           <Property Name="created" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="user_id" />
           </Key>
-          <Property Name="user_id" Type="int" Nullable="false" />
-          <Property Name="user_name" Type="nchar" Nullable="false" MaxLength="10" />
-          <Property Name="password" Type="nchar" Nullable="false" MaxLength="10" />
-          <Property Name="email" Type="nchar" Nullable="false" MaxLength="50" />
+          <Property Name="user_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="password" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="email" Type="varchar" Nullable="false" MaxLength="250" />
           <Property Name="registered" Type="bit" Nullable="false" />
           <Property Name="admin" Type="bit" Nullable="false" />
         </EntityType>
@@ -116,9 +116,9 @@
             <PropertyRef Name="user_id" />
           </Key>
           <Property Type="Int32" Name="user_id" Nullable="false" />
-          <Property Type="String" Name="user_name" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="password" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="email" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="user_name" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="password" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="registered" Nullable="false" />
           <Property Type="Boolean" Name="admin" Nullable="false" />
           <NavigationProperty Name="Answer" Relationship="stackunderflowModel.FK_Answer_ToTable" FromRole="User" ToRole="Answer" />
@@ -130,7 +130,7 @@
           </Key>
           <Property Type="Int32" Name="answer_id" Nullable="false" />
           <Property Type="Int32" Name="user_id" Nullable="false" />
-          <Property Type="String" Name="content" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="content" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="rating" />
           <Property Type="DateTime" Name="created" Nullable="false" annotation:StoreGeneratedPattern="None" Precision="3" />
           <NavigationProperty Name="User" Relationship="stackunderflowModel.FK_Answer_ToTable" FromRole="Answer" ToRole="User" />
@@ -143,8 +143,8 @@
           </Key>
           <Property Type="Int32" Name="question_id" Nullable="false" />
           <Property Type="Int32" Name="user_id" Nullable="false" />
-          <Property Type="String" Name="title" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="content" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="title" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="content" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="created" Nullable="false" annotation:StoreGeneratedPattern="None" Precision="3" />
           <NavigationProperty Name="User" Relationship="stackunderflowModel.FK_Question_ToTable" FromRole="Question" ToRole="User" />
           <NavigationProperty Name="Answer" Relationship="stackunderflowModel.FK_Answer_ToTable_1" FromRole="Question" ToRole="Answer" />
