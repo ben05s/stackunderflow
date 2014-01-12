@@ -1,4 +1,4 @@
-﻿// Default code generation is disabled for model 'C:\Users\benny\Documents\Visual Studio 2012\Projects\stackunderflow\StackUnderflow.Common\DAL\StackunderflowModel.edmx'. 
-// To enable default code generation, change the value of the 'Code Generation Strategy' designer
-// property to an alternate value. This property is available in the Properties Window when the model is
-// open in the designer.
+﻿// Die standardmäßige Codegenerierung für Modell 'C:\Users\Armin\Documents\Visual Studio 2012\Projects\StackUnderFlow\StackUnderflow.Common\DAL\StackunderflowModel.edmx' ist deaktiviert. 
+// Ändern Sie zur Aktivierung der standardmäßigen Codegenerierung den Wert der Designer-Eigenschaft 'Codegenerierungsstrategie'
+// in einen anderen Wert. Diese Eigenschaft ist im Fenster 'Eigenschaften' verfügbar, wenn das Modell
+// im Designer geöffnet ist.
