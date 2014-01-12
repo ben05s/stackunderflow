@@ -102,7 +102,7 @@ namespace StackUnderflow.Controllers
         {
             Boolean registered = false;
             if (editUser.registered == "Y") registered = true;
-            _userService.SaveUser(0, editUser.username, editUser.email, registered, editUser.isAdmin);
+            _userService.SaveUser(editUser.id, editUser.username, editUser.email, registered, editUser.isAdmin);
 
             var user = _userService.GetUser(User.Identity.Name);
             UserViewModel userViewModel = null;

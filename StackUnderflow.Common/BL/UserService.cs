@@ -14,7 +14,7 @@ namespace StackUnderflow.Common.BL
 
         public User GetUser(int id)
         {
-            var user = _dal.User.Find(id);
+            var user = _dal.User.SingleOrDefault(i => i.user_id == id);
             return user;
         }
 

@@ -3,8 +3,18 @@
 @{
     ViewBag.Title = "EditUser";
 }
-
-<h2>EditUser</h2>
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+            </hgroup>
+            <p>
+                This is our StackUnderflow Page. Questions and Answers can be posted here. Enjoy!
+            </p>
+        </div>
+    </section>
+}
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
