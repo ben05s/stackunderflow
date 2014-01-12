@@ -118,7 +118,7 @@
           <Property Type="Int32" Name="user_id" Nullable="false" />
           <Property Type="String" Name="user_name" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Type="String" Name="password" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="email" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Type="Boolean" Name="registered" Nullable="false" />
           <Property Type="Boolean" Name="admin" Nullable="false" />
           <NavigationProperty Name="Answer" Relationship="stackunderflowModel.FK_Answer_ToTable" FromRole="User" ToRole="Answer" />
