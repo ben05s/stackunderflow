@@ -30,5 +30,7 @@ namespace StackUnderflow.Common.BL
 
         int RateUpAnswer(int answer_id);
         int RateDownAnswer(int answer_id);
+
+        Boolean SaveUser(string username, string email, Boolean registered, Boolean isAdmin);
     }
 }

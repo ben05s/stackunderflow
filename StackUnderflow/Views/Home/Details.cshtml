@@ -1,11 +1,11 @@
-﻿@model IEnumerable<StackUnderflow.Models.AnswerViewModel>
+﻿@model StackUnderflow.Models.DetailsViewModel
 @{
     ViewBag.Title = "Details";
 }
 
 <h2>Details</h2>
-<p>@Html.DisplayFor(questionItem => Model.ElementAt(0).question.title)</p>
-<p>@Html.DisplayFor(questionItem => Model.ElementAt(0).question.content)</p>
+<p>@Html.DisplayFor(questionItem => Model.currentQuestion.title)</p>
+<p>@Html.DisplayFor(questionItem => Model.currentQuestion.content)</p>
 <h4>Answers</h4>
 <table>
     <tr>
@@ -15,14 +15,15 @@
         <th>Created</th>
         <th></th>
     </tr>
-@foreach(var item in Model)
+@foreach(var item in Model.answers)
 {
     <tr>
         <td>@Html.DisplayFor(modelItem => item.content)</td>
         <td>@Html.DisplayFor(modelItem => item.rating)</td>
         <td>@Html.DisplayFor(modelItem => item.author)</td>
         <td>@Html.DisplayFor(modelItem => item.created)</td>
-        <td>@Html.ActionLink("+", "Rate", new { answer_id = item.id, positive = true }) | @Html.ActionLink("-", "Rate", new { answer_id = item.id, positive = false })</td>
+        <td>@Html.ActionLink("+", "Rate", new { answer_id = item.id, question_id = Model.currentQuestion.id, positive = true }) 
+            | @Html.ActionLink("-", "Rate", new { answer_id = item.id, question_id = Model.currentQuestion.id, positive = false })</td>
     </tr>
 }
 </table>
@@ -30,6 +31,6 @@
 @using (Html.BeginForm("Answer", "Home", FormMethod.Post))
 {
     <input id="content" type="text" name="content" value="Your answer here..." />
-    <input id="question_id" type="hidden" name="question_id" value="@Model.ElementAt(0).id" />
+    <input id="question_id" type="hidden" name="question_id" value="@Model.currentQuestion.id" />
     <input id="Answer" type="submit" value="Answer" />
 }
