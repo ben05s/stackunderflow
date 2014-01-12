@@ -20,10 +20,16 @@ namespace StackUnderflow.Controllers
 
         public ActionResult Index()
         {
+            var user = _userService.GetUser(User.Identity.Name);
+            if (user != null)
+            {
+                ViewBag.User = new UserViewModel(user);
+            }
             var questions = _userService.GetAllQuestions(0);
             return View(GetQuestionsViewModelCollection(questions));
         }
 
+        [OutputCache(Duration = 240, VaryByParam = "id")]
         public ActionResult Details(int id)
         {
             var answers = _userService.GetAllAnswers(id, 0);
@@ -31,10 +37,32 @@ namespace StackUnderflow.Controllers
         }
 
         [HttpGet]
-        public ActionResult Search(string query)
+        public ViewResult Search(string query)
         {
             var questions = _userService.SearchForQuestions(query, 0);
             return View("Index", GetQuestionsViewModelCollection(questions));
+        }
+
+        [Authorize]
+        public ViewResult SearchUser(string username)
+        {
+            var users = _userService.SearchForUsers(username, 0);
+            return View("Index");
+        }
+
+        [Authorize]
+        public ViewResult EditUser(int id)
+        {
+            var user = new UserViewModel(_userService.GetUser(id));
+            if (user.isAdmin)
+            {
+                return View(user);
+            }
+            else
+            {
+                return View("Index");
+            }
+            
         }
 
         [Authorize]

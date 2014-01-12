@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="BL\IUserService.cs" />
     <Compile Include="BL\UserService.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="DAL\Answer.cs">
       <DependentUpon>StackunderflowModel.tt</DependentUpon>
     </Compile>
