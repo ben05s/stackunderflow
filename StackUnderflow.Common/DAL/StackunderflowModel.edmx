@@ -30,7 +30,7 @@
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="content" Type="nchar" Nullable="false" MaxLength="100" />
           <Property Name="rating" Type="int" />
-          <Property Name="created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="created" Type="datetime" Nullable="false" StoreGeneratedPattern="None" />
           <Property Name="question_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Question">
@@ -41,7 +41,7 @@
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="title" Type="nchar" Nullable="false" MaxLength="100" />
           <Property Name="content" Type="nchar" MaxLength="100" />
-          <Property Name="created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="created" Type="datetime" Nullable="false" StoreGeneratedPattern="None" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -132,7 +132,7 @@
           <Property Type="Int32" Name="user_id" Nullable="false" />
           <Property Type="String" Name="content" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Type="Int32" Name="rating" />
-          <Property Type="Binary" Name="created" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Type="DateTime" Name="created" Nullable="false" annotation:StoreGeneratedPattern="None" Precision="3" />
           <NavigationProperty Name="User" Relationship="stackunderflowModel.FK_Answer_ToTable" FromRole="Answer" ToRole="User" />
           <Property Type="Int32" Name="question_id" Nullable="false" />
           <NavigationProperty Name="Question" Relationship="stackunderflowModel.FK_Answer_ToTable_1" FromRole="Answer" ToRole="Question" />
@@ -145,7 +145,7 @@
           <Property Type="Int32" Name="user_id" Nullable="false" />
           <Property Type="String" Name="title" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Type="String" Name="content" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Type="Binary" Name="created" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Type="DateTime" Name="created" Nullable="false" annotation:StoreGeneratedPattern="None" Precision="3" />
           <NavigationProperty Name="User" Relationship="stackunderflowModel.FK_Question_ToTable" FromRole="Question" ToRole="User" />
           <NavigationProperty Name="Answer" Relationship="stackunderflowModel.FK_Answer_ToTable_1" FromRole="Question" ToRole="Answer" />
         </EntityType>

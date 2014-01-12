@@ -1,0 +1,28 @@
+﻿@model IEnumerable<StackUnderflow.Models.AnswerViewModel>
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<p>@Html.DisplayFor(questionItem => Model.ElementAt(0).question.title)</p>
+<p>@Html.DisplayFor(questionItem => Model.ElementAt(0).question.content)</p>
+<h4>Answers</h4>
+<table>
+    <tr>
+        <th>Content</th>
+        <th>Rating</th>
+        <th>Author</th>
+        <th>Created</th>
+        <th></th>
+    </tr>
+@foreach(var item in Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.content)</td>
+        <td>@Html.DisplayFor(modelItem => item.rating)</td>
+        <td>@Html.DisplayFor(modelItem => item.author)</td>
+        <td>@Html.DisplayFor(modelItem => item.created)</td>
+        <td>@Html.ActionLink("+", "Rate", new { positive = true }) | @Html.ActionLink("-", "Rate", new { positive = false })</td>
+    </tr>
+}
+</table>
