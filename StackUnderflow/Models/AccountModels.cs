@@ -34,6 +34,30 @@ namespace StackUnderflow.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ForgotPasswordModel
+    {
+        [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email address")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(10, ErrorMessage = "{0} darf maximal {1} Zeichen lang sein.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "Passwörter stimmen nicht überein.")]
+        public string ConfirmPassword { get; set; }
+    }
+
     public class LoginModel
     {
         [Required]
