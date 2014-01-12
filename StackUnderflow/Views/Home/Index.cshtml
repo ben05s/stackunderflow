@@ -4,8 +4,12 @@
     ViewBag.Title = "Questions";
 }
 @section featured {
+    
     <section class="featured">
         <div class="content-wrapper">
+            
+            <h4 style="color: green"> @TempData["Info"] </h4>
+            <h4 style="color: red"> @TempData["Error"] </h4>
             <hgroup class="title">
                 <h1>@ViewBag.Title.</h1>
             </hgroup>
@@ -31,8 +35,7 @@
             <p>@Html.ActionLink("Ask a Question", "Ask")</p>
         </td>
         <td style="width:300px;">
-            <h4 style="color: green"> @TempData["Info"] </h4>
-            <h4 style="color: red"> @TempData["Error"] </h4>
+            
             <br />
             @if (Model.currentUser != null && Model.currentUser.isAdmin)
             {

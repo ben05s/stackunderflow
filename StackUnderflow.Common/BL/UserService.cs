@@ -62,7 +62,7 @@ namespace StackUnderflow.Common.BL
         public Boolean LoginUser(string username, string password)
         {
             var user = GetUser(username);
-            if (user != null && user.password == password)
+            if (user != null && user.password == password && user.registered == true)
             {
                 return true;
             }
@@ -72,10 +72,10 @@ namespace StackUnderflow.Common.BL
             }
         }
 
-        public Boolean UpdatePassword(int user_id, string newpassword, string oldpassword)
+        public Boolean UpdatePassword(int user_id, string newpassword)
         {
             var user = GetUser(user_id); 
-            if (user != null && user.password == oldpassword && oldpassword != newpassword)
+            if (user != null)
             {
                 user.password = newpassword;
                 Save();

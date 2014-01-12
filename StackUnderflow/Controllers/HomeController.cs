@@ -83,15 +83,16 @@ namespace StackUnderflow.Controllers
             }
             else
             {
-                var user = _userService.GetUser(User.Identity.Name);
+                var user = _userService.GetUser(id);
                 UserViewModel userViewModel = null;
                 if (user != null)
                 {
                     userViewModel = new UserViewModel(user);
                 }
-                var allUsers = _userService.GetAllUsers(0);
-                var questions = _userService.GetAllQuestions(0);
-                return View(new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
+                //var allUsers = _userService.GetAllUsers(0);
+                //var questions = _userService.GetAllQuestions(0);
+               // return View(new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
+                return View(userViewModel);
             }
             
         }
@@ -101,8 +102,25 @@ namespace StackUnderflow.Controllers
         public ViewResult EditUser(UserViewModel editUser)
         {
             Boolean registered = false;
-            if (editUser.registered == "Y") registered = true;
-            _userService.SaveUser(editUser.id, editUser.username, editUser.email, registered, editUser.isAdmin);
+            registered = editUser.registered;
+            if (_userService.SaveUser(editUser.id, editUser.username, editUser.email, registered, editUser.isAdmin))
+            {
+                if (editUser.newpassword != null)
+                {
+                    if (!_userService.UpdatePassword(editUser.id, editUser.newpassword))
+                    {
+                        ModelState.AddModelError("", "Fehler beim Speichern des Passworts");
+                        return View();
+                    }
+                }
+                TempData["Info"] = "Benutzeränderungen wurden gespeichert";
+            }
+            else
+            {
+                ModelState.AddModelError("", "Fehler beim Speichern");
+                return View();
+            }
+            
 
             var user = _userService.GetUser(User.Identity.Name);
             UserViewModel userViewModel = null;
@@ -112,7 +130,8 @@ namespace StackUnderflow.Controllers
             }
             var allUsers = _userService.GetAllUsers(0);
             var questions = _userService.GetAllQuestions(0);
-            return View(new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
+            return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
+       
         }
 
         [Authorize]
