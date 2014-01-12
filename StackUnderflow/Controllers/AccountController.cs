@@ -48,6 +48,7 @@ namespace StackUnderflow.Controllers
                     }
                     else
                     {
+                        TempData["Info"] = "Du wurdest erfolgreich angemeldet";
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -99,7 +100,7 @@ namespace StackUnderflow.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-
+            TempData["Info"] = "Du wurdest erfolgreich abgemeldet";
             return RedirectToAction("Index", "Home");
         }
 
@@ -120,12 +121,12 @@ namespace StackUnderflow.Controllers
             if (m.Equals(md5) && _userService.RegisterUser(username))
             {
                 FormsAuthentication.SetAuthCookie(username, false);
-                //ViewBag.Info("Registration completed");
+                TempData["Info"] = "Registration completed";
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                //ViewBag.Info("Unable to confirm user. Contact administration");
+                TempData["Error"] = "Unable to confirm user. Contact administration";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -154,6 +155,7 @@ namespace StackUnderflow.Controllers
                 if (_userService.ForgotPassword(model.Username, model.Email, model.NewPassword))
                 {
                     // Passwort wurde geändert
+                    TempData["Info"] = "Passwort wurde geändert";
                     return RedirectToAction("Login", "Account");
                 }
                 else

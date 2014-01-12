@@ -7,8 +7,10 @@
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
 </hgroup>
-
 <section id="loginForm">
+   <h4 style="color: green"> @TempData["Info"] </h4>
+   <h4 style="color: red"> @TempData["Error"] </h4>
+
 <h2>Use a local account to log in.</h2>
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.ValidationSummary(true)
@@ -35,6 +37,7 @@
     </fieldset>
     <p>
         @Html.ActionLink("Register", "Register") if you don't have an account.
+        @Html.ActionLink("Forgot Password?", "ForgotPassword") 
     </p>
 }
 </section>
