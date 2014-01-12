@@ -196,7 +196,6 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AnswerViewModel.cs" />
     <Compile Include="Models\QuestionViewModel.cs" />
-    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
