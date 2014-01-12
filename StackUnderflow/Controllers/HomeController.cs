@@ -89,9 +89,6 @@ namespace StackUnderflow.Controllers
                 {
                     userViewModel = new UserViewModel(user);
                 }
-                //var allUsers = _userService.GetAllUsers(0);
-                //var questions = _userService.GetAllQuestions(0);
-               // return View(new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
                 return View(userViewModel);
             }
             
@@ -154,10 +151,12 @@ namespace StackUnderflow.Controllers
                 }
                 var allUsers = _userService.GetAllUsers(0);
                 var questions = _userService.GetAllQuestions(0);
+                TempData["Info"] = "Frage wurde hinzugefügt";
                 return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
             }
             else
             {
+                TempData["Error"] = "Fehler beim Speichern der Frage";
                 return View();
             }
         }
@@ -176,10 +175,12 @@ namespace StackUnderflow.Controllers
                 }
                 var question = new QuestionViewModel(_userService.GetQuestion(question_id));
                 var answers = _userService.GetAllAnswers(question_id, 0);
+                TempData["Info"] = "Antwort wurde hinzugefügt";
                 return View("Details", new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
             }
             else
             {
+                TempData["Error"] = "Fehler beim Speichern der Antwort";
                 return View("Details");
             }
         }
