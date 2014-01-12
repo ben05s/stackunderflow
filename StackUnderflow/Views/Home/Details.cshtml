@@ -22,7 +22,14 @@
         <td>@Html.DisplayFor(modelItem => item.rating)</td>
         <td>@Html.DisplayFor(modelItem => item.author)</td>
         <td>@Html.DisplayFor(modelItem => item.created)</td>
-        <td>@Html.ActionLink("+", "Rate", new { positive = true }) | @Html.ActionLink("-", "Rate", new { positive = false })</td>
+        <td>@Html.ActionLink("+", "Rate", new { answer_id = item.id, positive = true }) | @Html.ActionLink("-", "Rate", new { answer_id = item.id, positive = false })</td>
     </tr>
 }
 </table>
+
+@using (Html.BeginForm("Answer", "Home", FormMethod.Post))
+{
+    <input id="content" type="text" name="content" value="Your answer here..." />
+    <input id="question_id" type="hidden" name="question_id" value="@Model.ElementAt(0).id" />
+    <input id="Answer" type="submit" value="Answer" />
+}

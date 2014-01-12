@@ -59,15 +59,34 @@ namespace StackUnderflow.Controllers
         }
 
         [Authorize]
-        public ActionResult Answer()
+        [HttpPost]
+        public ActionResult Answer(int question_id, string content)
         {
-            return View();
+            if (_userService.CreateAnswer(User.Identity.Name, question_id, content))
+            {
+                var answers = _userService.GetAllAnswers(question_id, 0);
+                return View("Details", GetAnswersViewModelCollection(answers));
+            }
+            else
+            {
+                return View("Details");
+            }
         }
 
         [Authorize]
-        public ActionResult Rate(Boolean positive)
+        [HttpGet]
+        public ActionResult Rate(int answer_id, Boolean positive)
         {
-            return View();
+            if (positive)
+            {
+                _userService.RateUpAnswer(answer_id);
+            }
+            else
+            {
+                _userService.RateDownAnswer(answer_id);
+            }
+            var questions = _userService.GetAllQuestions(0);
+            return View("Details", GetQuestionsViewModelCollection(questions));
         }
 
         public ActionResult About()
