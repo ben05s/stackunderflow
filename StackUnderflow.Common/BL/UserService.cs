@@ -194,9 +194,9 @@ namespace StackUnderflow.Common.BL
             return answer.rating.Value;
         }
 
-        public Boolean SaveUser(string username, string email, Boolean registered, Boolean isAdmin)
+        public Boolean SaveUser(int user_id, string username, string email, Boolean registered, Boolean isAdmin)
         {
-            var dbuser = GetUser(username);
+            var dbuser = GetUser(user_id);
             dbuser.user_name = username;
             dbuser.email = email;
             dbuser.registered = registered;
