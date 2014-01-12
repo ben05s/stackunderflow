@@ -146,7 +146,7 @@ namespace StackUnderflow.Common.BL
         {
             return _dal.Answer
                 .Where(i => i.question_id == question_id)
-                .OrderBy(i => i.rating)
+                .OrderByDescending(i => i.rating)
                 .Skip(page * 50)
                 .Take(50);
         }
@@ -192,6 +192,18 @@ namespace StackUnderflow.Common.BL
             answer.rating--;
             Save();
             return answer.rating.Value;
+        }
+
+        public Boolean SaveUser(string username, string email, Boolean registered, Boolean isAdmin)
+        {
+            var dbuser = GetUser(username);
+            dbuser.user_name = username;
+            dbuser.email = email;
+            dbuser.registered = registered;
+            dbuser.admin = isAdmin;
+            
+            Save();
+            return true;
         }
 
         private void Save()

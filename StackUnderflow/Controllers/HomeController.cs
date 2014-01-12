@@ -21,48 +21,98 @@ namespace StackUnderflow.Controllers
         public ActionResult Index()
         {
             var user = _userService.GetUser(User.Identity.Name);
-            if (user != null)
+            UserViewModel userViewModel = null;
+            if(user != null)
             {
-                ViewBag.User = new UserViewModel(user);
+                userViewModel = new UserViewModel(user);
             }
+            var allUsers = _userService.GetAllUsers(0);
             var questions = _userService.GetAllQuestions(0);
-            return View(GetQuestionsViewModelCollection(questions));
+            return View(new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
         }
 
-        [OutputCache(Duration = 240, VaryByParam = "id")]
+        [OutputCache(Duration = 1, VaryByParam = "id")]
         public ActionResult Details(int id)
         {
+            var user = _userService.GetUser(User.Identity.Name);
+            UserViewModel userViewModel = null;
+            if (user != null)
+            {
+                userViewModel = new UserViewModel(user);
+            }
+            var question = new QuestionViewModel(_userService.GetQuestion(id));
             var answers = _userService.GetAllAnswers(id, 0);
-            return View(GetAnswersViewModelCollection(answers));
+            return View(new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
         }
 
         [HttpGet]
         public ViewResult Search(string query)
         {
+            var user = _userService.GetUser(User.Identity.Name);
+            UserViewModel userViewModel = null;
+            if (user != null)
+            {
+                userViewModel = new UserViewModel(user);
+            }
+            var allUsers = _userService.GetAllUsers(0);
             var questions = _userService.SearchForQuestions(query, 0);
-            return View("Index", GetQuestionsViewModelCollection(questions));
+            return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
         }
 
         [Authorize]
         public ViewResult SearchUser(string username)
         {
+            var user = _userService.GetUser(User.Identity.Name);
+            UserViewModel userViewModel = null;
+            if (user != null)
+            {
+                userViewModel = new UserViewModel(user);
+            }
             var users = _userService.SearchForUsers(username, 0);
-            return View("Index");
+            var questions = _userService.GetAllQuestions(0);
+            return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(users), GetQuestionsViewModelCollection(questions)));
         }
 
         [Authorize]
         public ViewResult EditUser(int id)
         {
-            var user = new UserViewModel(_userService.GetUser(id));
-            if (user.isAdmin)
+            var editUser = new UserViewModel(_userService.GetUser(id));
+            if (editUser.isAdmin)
             {
-                return View(user);
+                return View(editUser);
             }
             else
             {
-                return View("Index");
+                var user = _userService.GetUser(User.Identity.Name);
+                UserViewModel userViewModel = null;
+                if (user != null)
+                {
+                    userViewModel = new UserViewModel(user);
+                }
+                var allUsers = _userService.GetAllUsers(0);
+                var questions = _userService.GetAllQuestions(0);
+                return View(new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
             }
             
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ViewResult EditUser(UserViewModel editUser)
+        {
+            Boolean registered = false;
+            if (editUser.registered == "Y") registered = true;
+            _userService.SaveUser(editUser.username, editUser.email, registered, editUser.isAdmin);
+
+            var user = _userService.GetUser(User.Identity.Name);
+            UserViewModel userViewModel = null;
+            if (user != null)
+            {
+                userViewModel = new UserViewModel(user);
+            }
+            var allUsers = _userService.GetAllUsers(0);
+            var questions = _userService.GetAllQuestions(0);
+            return View(new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
         }
 
         [Authorize]
@@ -77,8 +127,15 @@ namespace StackUnderflow.Controllers
         {
             if (_userService.CreateQuestion(User.Identity.Name, title, content))
             {
+                var user = _userService.GetUser(User.Identity.Name);
+                UserViewModel userViewModel = null;
+                if (user != null)
+                {
+                    userViewModel = new UserViewModel(user);
+                }
+                var allUsers = _userService.GetAllUsers(0);
                 var questions = _userService.GetAllQuestions(0);
-                return View("Index", GetQuestionsViewModelCollection(questions));
+                return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
             }
             else
             {
@@ -92,8 +149,15 @@ namespace StackUnderflow.Controllers
         {
             if (_userService.CreateAnswer(User.Identity.Name, question_id, content))
             {
+                var user = _userService.GetUser(User.Identity.Name);
+                UserViewModel userViewModel = null;
+                if (user != null)
+                {
+                    userViewModel = new UserViewModel(user);
+                }
+                var question = new QuestionViewModel(_userService.GetQuestion(question_id));
                 var answers = _userService.GetAllAnswers(question_id, 0);
-                return View("Details", GetAnswersViewModelCollection(answers));
+                return View("Details", new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
             }
             else
             {
@@ -103,7 +167,7 @@ namespace StackUnderflow.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult Rate(int answer_id, Boolean positive)
+        public ActionResult Rate(int answer_id, int question_id, Boolean positive)
         {
             if (positive)
             {
@@ -113,8 +177,15 @@ namespace StackUnderflow.Controllers
             {
                 _userService.RateDownAnswer(answer_id);
             }
-            var questions = _userService.GetAllQuestions(0);
-            return View("Details", GetQuestionsViewModelCollection(questions));
+            var user = _userService.GetUser(User.Identity.Name);
+            UserViewModel userViewModel = null;
+            if (user != null)
+            {
+                userViewModel = new UserViewModel(user);
+            }
+            var question = new QuestionViewModel(_userService.GetQuestion(question_id));
+            var answers = _userService.GetAllAnswers(question_id, 0);
+            return View("Details", new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
         }
 
         public ActionResult About()
@@ -142,6 +213,16 @@ namespace StackUnderflow.Controllers
                 viewmodel_answers.Add(new AnswerViewModel(answer));
             }
             return viewmodel_answers;
+        }
+
+        private static List<UserViewModel> GetUsersViewModelCollection(IQueryable<Common.DAL.User> users)
+        {
+            var viewmodel_users = new List<UserViewModel>();
+            foreach (var user in users)
+            {
+                viewmodel_users.Add(new UserViewModel(user));
+            }
+            return viewmodel_users;
         }
     }
 }
