@@ -16,7 +16,7 @@ namespace StackUnderflow.Models
         public string Username { get; set; }
 
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]

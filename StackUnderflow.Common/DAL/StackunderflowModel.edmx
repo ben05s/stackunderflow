@@ -27,11 +27,11 @@
             <PropertyRef Name="answer_id" />
           </Key>
           <Property Name="answer_id" Type="int" Nullable="false" />
+          <Property Name="question_id" Type="int" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="content" Type="nchar" Nullable="false" MaxLength="100" />
           <Property Name="rating" Type="int" />
-          <Property Name="created" Type="datetime" Nullable="false" StoreGeneratedPattern="None" />
-          <Property Name="question_id" Type="int" Nullable="false" />
+          <Property Name="created" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Question">
           <Key>
@@ -41,7 +41,7 @@
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="title" Type="nchar" Nullable="false" MaxLength="100" />
           <Property Name="content" Type="nchar" MaxLength="100" />
-          <Property Name="created" Type="datetime" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="created" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -50,7 +50,7 @@
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="user_name" Type="nchar" Nullable="false" MaxLength="10" />
           <Property Name="password" Type="nchar" Nullable="false" MaxLength="10" />
-          <Property Name="email" Type="nchar" Nullable="false" MaxLength="10" />
+          <Property Name="email" Type="nchar" Nullable="false" MaxLength="50" />
           <Property Name="registered" Type="bit" Nullable="false" />
           <Property Name="admin" Type="bit" Nullable="false" />
         </EntityType>
