@@ -14,6 +14,8 @@ namespace StackUnderflow.Models
         public string registered { get; set; }
         public Boolean isAdmin { get; set; }
 
+        public UserViewModel() { }
+
         public UserViewModel(User obj)
         {
             this.id = obj.user_id;
