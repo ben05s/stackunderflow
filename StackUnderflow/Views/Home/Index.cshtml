@@ -1,7 +1,7 @@
 ﻿@model StackUnderflow.Models.HomeViewModel
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Questions";
 }
 @section featured {
     <section class="featured">
@@ -18,19 +18,22 @@
 <table>
     <tr>
         <td style="width:600px;">
-            <p>@Html.ActionLink("Ask a Question", "Ask")</p>
-            <h2>Questions</h2>
             @using (Html.BeginForm("Search", "Home", FormMethod.Get))
             {
-                <input id="question" type="text" name="query" />
+                <div>Question:&nbsp;</div><input id="question" type="text" name="query" size="20" maxlength="20" />
                 <input id="Search" type="submit" value="Search" />
             }
 
             <div id="questionsPartial">
                 @Html.Partial("QuestionsPartial", Model.questions)
             </div>
+            <br />
+            <p>@Html.ActionLink("Ask a Question", "Ask")</p>
         </td>
         <td style="width:300px;">
+            <h4 style="color: green"> @TempData["Info"] </h4>
+            <h4 style="color: red"> @TempData["Error"] </h4>
+            <br />
             @if (Model.currentUser != null && Model.currentUser.isAdmin)
             {
                 @Html.Partial("Admin", Model.users);

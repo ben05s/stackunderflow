@@ -3,10 +3,10 @@
     ViewBag.Title = "Admin";
 }
 
-<h2>Admin Area</h2>
+<h4>Admin Area</h4>
 @using (Html.BeginForm("SearchUser", "Home", FormMethod.Get))
 {
-    <input id="username" type="text" name="username" />
+    <div>Username:&nbsp;</div><input id="username" type="text" name="username" size="20" maxlength="20" />
     <input id="search" type="submit" value="Search" />
 }
 
