@@ -15,33 +15,46 @@
         </div>
     </section>
 }
-<p>@Html.ActionLink("Ask a Question", "Ask")</p>
-<h2>Questions</h2>
-@using (Html.BeginForm("Search", "Home", FormMethod.Get))
-{
-    <input id="question" type="text" name="query" />
-    <input id="Search" type="submit" value="Search" />
-}
 <table>
     <tr>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Author</th>
-        <th>Created</th>
-        <th></th>
-    </tr>
-@foreach(var item in Model) {
-    <tr>
-        <td>@Html.DisplayFor(modelItem => item.title)</td>
-        <td>@Html.DisplayFor(modelItem => item.content)</td>
-        <td>@Html.DisplayFor(modelItem => item.author)</td>
-        <td>@Html.DisplayFor(modelItem => item.created)</td>
-        <td>
-            @if(item.hasAnswers())
+        <td style="width:600px;">
+            <p>@Html.ActionLink("Ask a Question", "Ask")</p>
+            <h2>Questions</h2>
+            @using (Html.BeginForm("Search", "Home", FormMethod.Get))
             {
-                @Html.ActionLink("Details", "Details", new { id = item.id })
+                <input id="question" type="text" name="query" />
+                <input id="Search" type="submit" value="Search" />
+            }
+
+            <div id="questionsPartial">
+                @Html.Partial("QuestionsPartial", Model)
+            </div>
+        </td>
+        <td style="width:300px;">
+            @if (ViewBag.User != null && ViewBag.User.isAdmin)
+            {
+                @Html.Partial("Admin");
             }
         </td>
     </tr>
-}
 </table>
+
+<script>
+    $(document).ready(function () {
+        $('#Search').click(function () {
+            $.ajax({
+                url: '@Url.Action("Search", "Home")',
+                data: { query: $('#question').val },
+                cache: false,
+                type: "GET",
+                dataType: "html",
+                success: function (data, textStatus, XMLHttpRequest) {
+                    SetData(data);
+                }
+            });
+            function SetData(data) {
+                $("#questionsPartial").html(data); // HTML DOM replace
+            }
+        });
+    });
+</script>
