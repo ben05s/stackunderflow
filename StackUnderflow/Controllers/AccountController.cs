@@ -9,6 +9,8 @@ using WebMatrix.WebData;
 using StackUnderflow.Filters;
 using StackUnderflow.Models;
 using StackUnderflow.Common.BL;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace StackUnderflow.Controllers
 {
@@ -75,12 +77,13 @@ namespace StackUnderflow.Controllers
         {
             if (ModelState.IsValid)
             {
+                MD5 md5Hasher = MD5.Create();
+                string md5 = BitConverter.ToString(md5Hasher.ComputeHash(Encoding.Default.GetBytes(model.Username+"1234"))).Replace("-", "");
+
                 // Attempt to register the user
                if(_userService.CreateUser(model.Username, model.Password, model.Email))
                {
-                    FormsAuthentication.SetAuthCookie(model.Username, false);
-                   
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Confirm", "Account", new { username = model.Username, m = md5 });
                } else {
                     ModelState.AddModelError("", "Unable to create user");
                }
@@ -100,5 +103,32 @@ namespace StackUnderflow.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // GET: /Account/Confirm
+        public ActionResult Confirm(String username, String m) 
+        {
+            ViewBag.Username = username;
+            ViewBag.M = m;
+            return View();
+        }
+
+        // GET: /Account/ConfirmLink
+        public ActionResult ConfirmLink(String username, String m)
+        {
+            MD5 md5Hasher = MD5.Create();
+            string md5 = BitConverter.ToString(md5Hasher.ComputeHash(Encoding.Default.GetBytes(username + "1234"))).Replace("-", "");
+
+            if (m.Equals(md5) && _userService.RegisterUser(username))
+            {
+                FormsAuthentication.SetAuthCookie(username, false);
+                //ViewBag.Info("Registration completed");
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                //ViewBag.Info("Unable to confirm user. Contact administration");
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
     }
 }

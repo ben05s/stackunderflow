@@ -310,6 +310,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\Ask.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\Account\Confirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

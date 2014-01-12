@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Confirm";
+}
+
+<h2>Confirmation Link</h2>
+<p>
+@Html.ActionLink("Click here", "ConfirmLink", "Account", new { username=ViewBag.Username, m = ViewBag.M }, null)
+
+</p>

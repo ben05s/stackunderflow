@@ -10,7 +10,7 @@ namespace StackUnderflow.Common.BL
     public interface IUserService
     {
         Boolean CreateUser(string username, string password, string email);
-        Boolean RegisterUser(int user_id);
+        Boolean RegisterUser(string user_name);
         Boolean LoginUser(string username, string password);
         Boolean UpdatePassword(int user_id, string newpassword, string oldpassword);
 
