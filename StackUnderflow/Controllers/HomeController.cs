@@ -21,12 +21,14 @@ namespace StackUnderflow.Controllers
         public ActionResult Index()
         {
             var user = _userService.GetUser(User.Identity.Name);
-            if (user != null)
+            UserViewModel userViewModel = null;
+            if(user != null)
             {
-                ViewBag.User = new UserViewModel(user);
+                userViewModel = new UserViewModel(user);
             }
+            var allUsers = _userService.GetAllUsers(0);
             var questions = _userService.GetAllQuestions(0);
-            return View(GetQuestionsViewModelCollection(questions));
+            return View(new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
         }
 
         [OutputCache(Duration = 240, VaryByParam = "id")]
@@ -39,15 +41,22 @@ namespace StackUnderflow.Controllers
         [HttpGet]
         public ViewResult Search(string query)
         {
+            var user = _userService.GetUser(User.Identity.Name);
+            UserViewModel userViewModel = null;
+            if (user != null)
+            {
+                userViewModel = new UserViewModel(user);
+            }
+            var allUsers = _userService.GetAllUsers(0);
             var questions = _userService.SearchForQuestions(query, 0);
-            return View("Index", GetQuestionsViewModelCollection(questions));
+            return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
         }
 
         [Authorize]
         public ViewResult SearchUser(string username)
         {
             var users = _userService.SearchForUsers(username, 0);
-            return View("Index");
+            return View("About");
         }
 
         [Authorize]
@@ -60,7 +69,7 @@ namespace StackUnderflow.Controllers
             }
             else
             {
-                return View("Index");
+                return View("About");
             }
             
         }
@@ -77,8 +86,15 @@ namespace StackUnderflow.Controllers
         {
             if (_userService.CreateQuestion(User.Identity.Name, title, content))
             {
+                var user = _userService.GetUser(User.Identity.Name);
+                UserViewModel userViewModel = null;
+                if (user != null)
+                {
+                    userViewModel = new UserViewModel(user);
+                }
+                var allUsers = _userService.GetAllUsers(0);
                 var questions = _userService.GetAllQuestions(0);
-                return View("Index", GetQuestionsViewModelCollection(questions));
+                return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
             }
             else
             {
@@ -142,6 +158,16 @@ namespace StackUnderflow.Controllers
                 viewmodel_answers.Add(new AnswerViewModel(answer));
             }
             return viewmodel_answers;
+        }
+
+        private static List<UserViewModel> GetUsersViewModelCollection(IQueryable<Common.DAL.User> users)
+        {
+            var viewmodel_users = new List<UserViewModel>();
+            foreach (var user in users)
+            {
+                viewmodel_users.Add(new UserViewModel(user));
+            }
+            return viewmodel_users;
         }
     }
 }

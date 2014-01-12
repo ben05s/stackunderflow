@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StackUnderflow.Models.QuestionViewModel>
+﻿@model StackUnderflow.Models.HomeViewModel
 
 @{
     ViewBag.Title = "Home Page";
@@ -27,13 +27,13 @@
             }
 
             <div id="questionsPartial">
-                @Html.Partial("QuestionsPartial", Model)
+                @Html.Partial("QuestionsPartial", Model.questions)
             </div>
         </td>
         <td style="width:300px;">
-            @if (ViewBag.User != null && ViewBag.User.isAdmin)
+            @if (Model.currentUser != null && Model.currentUser.isAdmin)
             {
-                @Html.Partial("Admin");
+                @Html.Partial("Admin", Model.users);
             }
         </td>
     </tr>

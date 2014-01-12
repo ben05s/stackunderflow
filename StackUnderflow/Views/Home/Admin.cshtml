@@ -1,0 +1,29 @@
+﻿@model IEnumerable<StackUnderflow.Models.UserViewModel>
+@{
+    ViewBag.Title = "Admin";
+}
+
+<h2>Admin Area</h2>
+@using (Html.BeginForm("SearchUser", "Home", FormMethod.Get))
+{
+    <input id="username" type="text" name="username" />
+    <input id="search" type="submit" value="Search" />
+}
+
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Registered</th>
+        <th></th>
+    </tr>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.username)</td>
+        <td>@Html.DisplayFor(modelItem => item.email)</td>
+        <td>@Html.DisplayFor(modelItem => item.registered)</td>
+        <td>@Html.ActionLink("Edit", "EditUser", new { id = item.id })</td>
+    </tr>
+}
+</table>
