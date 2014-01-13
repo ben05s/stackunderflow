@@ -47,7 +47,12 @@ namespace StackUnderflow.Controllers
         public JsonResult QuestionAutocomplete(string query)
         {
             var result = _userService.SearchForQuestions(query, 0);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var list = new List<string>();
+            foreach(var item in result)
+            {
+                list.Add(item.title);
+            }
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -220,8 +225,6 @@ namespace StackUnderflow.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your app description page.";
-
             return View();
         }
 

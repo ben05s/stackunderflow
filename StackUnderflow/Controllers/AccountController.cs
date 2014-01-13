@@ -49,7 +49,7 @@ namespace StackUnderflow.Controllers
                     }
                     else
                     {
-                        TempData["Info"] = "Du wurdest erfolgreich angemeldet";
+                        TempData["Info"] = "You have been succesfully logged in";
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -101,7 +101,7 @@ namespace StackUnderflow.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            TempData["Info"] = "Du wurdest erfolgreich abgemeldet";
+            TempData["Info"] = "You have been succesfully logged off";
             return RedirectToAction("Index", "Home");
         }
 
@@ -156,12 +156,12 @@ namespace StackUnderflow.Controllers
                 if (_userService.ForgotPassword(model.Username, model.Email, model.NewPassword))
                 {
                     // Passwort wurde geändert
-                    TempData["Info"] = "Passwort wurde geändert";
+                    TempData["Info"] = "Password has been changed";
                     return RedirectToAction("Login", "Account");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Es wurde kein User mit diesen Daten gefunden!");
+                    ModelState.AddModelError("", "No user with this data has been found!");
                 }
             }
 
