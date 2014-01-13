@@ -14,31 +14,36 @@
         </div>
     </section>
 }
-
-<p>@Html.DisplayFor(questionItem => Model.currentQuestion.title)</p>
-<p>@Html.DisplayFor(questionItem => Model.currentQuestion.content)</p>
-<h4>Answers</h4>
-<table>
-    <tr>
-        <th>Content</th>
-        <th>Rating</th>
-        <th>Author</th>
-        <th>Created</th>
-        <th></th>
-    </tr>
-@foreach(var item in Model.answers)
-{
-    <tr>
-        <td>@Html.DisplayFor(modelItem => item.content)</td>
-        <td>@Html.DisplayFor(modelItem => item.rating)</td>
-        <td>@Html.DisplayFor(modelItem => item.author)</td>
-        <td>@Html.DisplayFor(modelItem => item.created)</td>
-        <td>@Html.ActionLink("+", "Rate", new { answer_id = item.id, question_id = Model.currentQuestion.id, positive = true }) 
-            | @Html.ActionLink("-", "Rate", new { answer_id = item.id, question_id = Model.currentQuestion.id, positive = false })</td>
-    </tr>
+<p style="font-size:large;"><strong>@Html.DisplayFor(questionItem => Model.currentQuestion.title)</strong></p>
+<p style="font-size:larger;">&nbsp;&nbsp;&nbsp;@Html.DisplayFor(questionItem => Model.currentQuestion.content)</p>
+<br />
+@if(Model.answers.Count() != 0) {
+    <table style="table-layout:fixed; width:100%;">
+        <tr>
+            <th style="width:400px;">Answer</th>
+            <th style="width:80px;">Rating</th>
+            <th style="width:100px;">Author</th>
+            <th style="width:180px;">Created</th>
+            <th></th>
+        </tr>
+    @foreach(var item in Model.answers)
+    {
+        <tr>
+            <td style="word-wrap:break-word">@Html.DisplayFor(modelItem => item.content)</td>
+            <td>@Html.DisplayFor(modelItem => item.rating)</td>
+            <td>@Html.DisplayFor(modelItem => item.author)</td>
+            <td>@Html.DisplayFor(modelItem => item.created)</td>
+            <td>@Html.ActionLink("+", "Rate", new { answer_id = item.id, question_id = Model.currentQuestion.id, positive = true }) 
+                | @Html.ActionLink("-", "Rate", new { answer_id = item.id, question_id = Model.currentQuestion.id, positive = false })</td>
+        </tr>
+    }
+    </table>
 }
-</table>
+else {
+    <small>There are no answers to this question jet.</small>
+}
 
+<br /><br />
 @if (Model.currentUser == null) {
     <p>
     @Html.ActionLink("Log in to answer", "Login", "Account", new { returnUrl = HttpContext.Current.Request.Url.LocalPath }, null)
@@ -46,8 +51,11 @@
 } else {
     using (Html.BeginForm("Answer", "Home", FormMethod.Post))
     {
-        <input id="content" type="text" name="content" value="Your answer here..." />
+        <textarea id="content" name="content" rows="4" cols="50"></textarea><br />
         <input id="question_id" type="hidden" name="question_id" value="@Model.currentQuestion.id" />
         <input id="Answer" type="submit" value="Answer" />
     }
 }
+<div>
+    @Html.ActionLink("Back", "Index")
+</div>

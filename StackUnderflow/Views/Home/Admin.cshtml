@@ -3,25 +3,24 @@
     ViewBag.Title = "Admin";
 }
 
-<h4>Admin Area</h4>
 @using (Html.BeginForm("SearchUser", "Home", FormMethod.Get))
 {
-    <div>Username:&nbsp;</div><input id="username" type="text" name="username" size="20" maxlength="20" />
+    @Html.Label("Search for Users")<input id="username" type="text" name="username" size="20" maxlength="20" />
     <input id="search" type="submit" value="Search" />
 }
 
-<table>
+<table style="table-layout:fixed; width:60%;">
     <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Registered</th>
+        <th style="width:180px;">Username</th>
+        <th style="width:180px;">Email</th>
+        <th style="width:100px;">Registered</th>
         <th></th>
     </tr>
 @foreach (var item in Model)
 {
     <tr>
-        <td>@Html.DisplayFor(modelItem => item.username)</td>
-        <td>@Html.DisplayFor(modelItem => item.email)</td>
+        <td style="word-wrap:break-word">@Html.DisplayFor(modelItem => item.username)</td>
+        <td style="word-wrap:break-word">@Html.DisplayFor(modelItem => item.email)</td>
         <td>@Html.DisplayFor(modelItem => item.registered)</td>
         <td>@Html.ActionLink("Edit", "EditUser", new { id = item.id })</td>
     </tr>

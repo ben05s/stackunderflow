@@ -21,10 +21,10 @@
 }
 <table>
     <tr>
-        <td style="width:600px;">
+        <td>
             @using (Html.BeginForm("Search", "Home", FormMethod.Get))
             {
-                <div>Question:&nbsp;</div><input id="question" type="text" name="query" size="20" maxlength="20" />
+                @Html.Label("Search for Questions")<input id="question" type="text" name="query" size="40" maxlength="40" />
                 <input id="Search" type="submit" value="Search" />
             }
 
@@ -34,8 +34,9 @@
             <br />
             <p>@Html.ActionLink("Ask a Question", "Ask")</p>
         </td>
-        <td style="width:300px;">
-            
+    </tr>
+    <tr>
+        <td>
             <br />
             @if (Model.currentUser != null && Model.currentUser.isAdmin)
             {
@@ -63,4 +64,30 @@
             }
         });
     });*@
+    function onItemSelect(query) {
+        var siteRootUrl = '@Url.Content("~/")';
+        window.location.href = siteRootUrl + 'Home/QuestionAutocomplete/' + query;
+    }
+
+    $(function () {
+        $("#question").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Home/QuestionAutocomplete", type: "POST", dataType: "json",
+                    data: { searchTerm: request.term, maxResults: 10 },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.title,
+                                value: item.title
+                            };
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+});
 </script>

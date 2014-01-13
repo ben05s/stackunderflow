@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Ask";
+    ViewBag.Title = "Ask a Question";
 }
 @section featured {
     <section class="featured">
@@ -13,11 +13,13 @@
         </div>
     </section>
 }
-<h2>@ViewBag.Title</h2>
 @using (Html.BeginForm("Ask", "Home", FormMethod.Post))
 {
-    <input id="title" type="text" name="title" value="Title..." />
-    <input id="content" type="text" name="content" value="Details about your question here..." />
+    @Html.Label("Title")<input id="title" type="text" name="title" value="" size="35" /><br />
+    @Html.Label("Content")<textarea id="content" name="content" rows="4" cols="50"></textarea><br />
     
     <input id="Ask" type="submit" value="Ask" />
 }
+<div>
+    @Html.ActionLink("Back", "Index")
+</div>

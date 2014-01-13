@@ -44,6 +44,12 @@ namespace StackUnderflow.Controllers
             return View(new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
         }
 
+        public JsonResult QuestionAutocomplete(string query)
+        {
+            var result = _userService.SearchForQuestions(query, 0);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public ViewResult Search(string query)
         {

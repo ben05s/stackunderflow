@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<StackUnderflow.Models.QuestionViewModel>
-<table>
+<table style="table-layout:fixed; width:100%;">
     <tr>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Author</th>
-        <th>Created</th>
+        <th style="width:200px;">Title</th>
+        <th style="width:300px;">Content</th>
+        <th style="width:100px;">Author</th>
+        <th style="width:180px;">Created</th>
         <th></th>
     </tr>
     @foreach(var item in Model) {
     <tr>
-        <td>@Html.DisplayFor(modelItem => item.title)</td>
-        <td>@Html.DisplayFor(modelItem => item.content)</td>
-        <td>@Html.DisplayFor(modelItem => item.author)</td>
-        <td>@Html.DisplayFor(modelItem => item.created)</td>
+        <td style="word-wrap:break-word">@Html.DisplayFor(modelItem => item.title)</td>
+        <td style="word-wrap:break-word">@Html.DisplayFor(modelItem => item.content)</td>
+        <td style="width:100px;">@Html.DisplayFor(modelItem => item.author)</td>
+        <td style="width:180px;">@Html.DisplayFor(modelItem => item.created)</td>
         <td>
             @Html.ActionLink("Details", "Details", new { id = item.id })
         </td>
