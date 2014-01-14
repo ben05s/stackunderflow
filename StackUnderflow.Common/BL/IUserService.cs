@@ -18,12 +18,12 @@ namespace StackUnderflow.Common.BL
         User GetUser(int id);
         User GetUser(string username);
 
-        IQueryable<User> GetAllUsers(int page);
-        IQueryable<User> SearchForUsers(string query, int page);
-        IQueryable<Question> GetAllQuestions(int page);
+        IQueryable<User> GetAllUsers();
+        IQueryable<User> SearchForUsers(string query);
+        IQueryable<Question> GetAllQuestions();
         Question GetQuestion(int id);
-        IQueryable<Question> SearchForQuestions(string query, int page);
-        IQueryable<Answer> GetAllAnswers(int question_id, int page);
+        IQueryable<Question> SearchForQuestions(string query);
+        IQueryable<Answer> GetAllAnswers(int question_id);
 
         Boolean CreateQuestion(string username, string title, string content);
         Boolean CreateAnswer(string username, int question_id, string content);

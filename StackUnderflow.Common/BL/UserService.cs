@@ -103,29 +103,23 @@ namespace StackUnderflow.Common.BL
         }
 
 
-        public IQueryable<User> GetAllUsers(int page)
+        public IQueryable<User> GetAllUsers()
         {
             return _dal.User
-                .OrderBy(i => i.user_name)
-                .Skip(page * 50)
-                .Take(50);
+                .OrderBy(i => i.user_name);
         }
 
-        public IQueryable<User> SearchForUsers(string query, int page)
+        public IQueryable<User> SearchForUsers(string query)
         {
             return _dal.User
                 .Where(i => i.user_name.ToLower().Contains(query.ToLower()))
-                .OrderBy(i => i.user_name)
-                .Skip(page * 50)
-                .Take(50);
+                .OrderBy(i => i.user_name);
         }
 
-        public IQueryable<Question> GetAllQuestions(int page)
+        public IQueryable<Question> GetAllQuestions()
         {
             return _dal.Question
-                .OrderByDescending(i => i.created)
-                .Skip(page * 50)
-                .Take(50);
+                .OrderByDescending(i => i.created);
         }
 
         public Question GetQuestion(int id)
@@ -133,22 +127,18 @@ namespace StackUnderflow.Common.BL
             return _dal.Question.Find(id);
         }
 
-        public IQueryable<Question> SearchForQuestions(string query, int page)
+        public IQueryable<Question> SearchForQuestions(string query)
         {
             return _dal.Question
-                .Where(i => i.title.ToLower().Contains(query.ToLower()) )
-                .OrderBy(i => i.created)
-                .Skip(page * 50)
-                .Take(50);
+                .Where(i => i.title.ToLower().Contains(query.ToLower()))
+                .OrderBy(i => i.created);
         }
 
-        public IQueryable<Answer> GetAllAnswers(int question_id, int page)
+        public IQueryable<Answer> GetAllAnswers(int question_id)
         {
             return _dal.Answer
                 .Where(i => i.question_id == question_id)
-                .OrderByDescending(i => i.rating)
-                .Skip(page * 50)
-                .Take(50);
+                .OrderByDescending(i => i.rating);
         }
 
         public Boolean CreateQuestion(string username, string title, string content)

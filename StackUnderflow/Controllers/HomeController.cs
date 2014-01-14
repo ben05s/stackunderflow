@@ -25,8 +25,8 @@ namespace StackUnderflow.Controllers
             {
                 userViewModel = new UserViewModel(user);
             }
-            var allUsers = _userService.GetAllUsers(0);
-            var questions = _userService.GetAllQuestions(0);
+            var allUsers = _userService.GetAllUsers();
+            var questions = _userService.GetAllQuestions();
             return View(new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
         }
 
@@ -40,13 +40,13 @@ namespace StackUnderflow.Controllers
                 userViewModel = new UserViewModel(user);
             }
             var question = new QuestionViewModel(_userService.GetQuestion(id));
-            var answers = _userService.GetAllAnswers(id, 0);
+            var answers = _userService.GetAllAnswers(id);
             return View(new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
         }
 
         public JsonResult QuestionAutocomplete(string query)
         {
-            var result = _userService.SearchForQuestions(query, 0);
+            var result = _userService.SearchForQuestions(query);
             var list = new List<string>();
             foreach(var item in result)
             {
@@ -64,11 +64,11 @@ namespace StackUnderflow.Controllers
             {
                 userViewModel = new UserViewModel(user);
             }
-            var allUsers = _userService.GetAllUsers(0);
-            var questions = _userService.SearchForQuestions(query, 0);
+            var allUsers = _userService.GetAllUsers();
+            var questions = _userService.SearchForQuestions(query);
             if (System.Linq.Enumerable.Count(questions) == 0)
             {
-                questions = _userService.GetAllQuestions(0);
+                questions = _userService.GetAllQuestions();
                 TempData["Error"] = "No questions have been found";
             }
             return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
@@ -83,8 +83,8 @@ namespace StackUnderflow.Controllers
             {
                 userViewModel = new UserViewModel(user);
             }
-            var users = _userService.SearchForUsers(username, 0);
-            var questions = _userService.GetAllQuestions(0);
+            var users = _userService.SearchForUsers(username);
+            var questions = _userService.GetAllQuestions();
             return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(users), GetQuestionsViewModelCollection(questions)));
         }
 
@@ -140,8 +140,8 @@ namespace StackUnderflow.Controllers
             {
                 userViewModel = new UserViewModel(user);
             }
-            var allUsers = _userService.GetAllUsers(0);
-            var questions = _userService.GetAllQuestions(0);
+            var allUsers = _userService.GetAllUsers();
+            var questions = _userService.GetAllQuestions();
             return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
        
         }
@@ -164,8 +164,8 @@ namespace StackUnderflow.Controllers
                 {
                     userViewModel = new UserViewModel(user);
                 }
-                var allUsers = _userService.GetAllUsers(0);
-                var questions = _userService.GetAllQuestions(0);
+                var allUsers = _userService.GetAllUsers();
+                var questions = _userService.GetAllQuestions();
                 TempData["Info"] = "Question has been added";
                 return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
             }
@@ -187,11 +187,11 @@ namespace StackUnderflow.Controllers
                 userViewModel = new UserViewModel(user);
             }
             var question = new QuestionViewModel(_userService.GetQuestion(question_id));
-            var answers = _userService.GetAllAnswers(question_id, 0);
+            var answers = _userService.GetAllAnswers(question_id);
 
             if (content.Length > 0 && _userService.CreateAnswer(User.Identity.Name, question_id, content))
             {
-                answers = _userService.GetAllAnswers(question_id, 0);
+                answers = _userService.GetAllAnswers(question_id);
                 TempData["Info"] = "Answer has been added";
                 return View("Details", new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
             }
@@ -221,7 +221,7 @@ namespace StackUnderflow.Controllers
                 userViewModel = new UserViewModel(user);
             }
             var question = new QuestionViewModel(_userService.GetQuestion(question_id));
-            var answers = _userService.GetAllAnswers(question_id, 0);
+            var answers = _userService.GetAllAnswers(question_id);
             return View("Details", new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
         }
 
