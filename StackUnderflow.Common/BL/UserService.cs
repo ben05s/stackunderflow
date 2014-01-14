@@ -123,7 +123,7 @@ namespace StackUnderflow.Common.BL
         public IQueryable<Question> GetAllQuestions(int page)
         {
             return _dal.Question
-                .OrderBy(i => i.created)
+                .OrderByDescending(i => i.created)
                 .Skip(page * 50)
                 .Take(50);
         }

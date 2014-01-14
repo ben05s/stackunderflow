@@ -69,7 +69,7 @@ namespace StackUnderflow.Controllers
             if (System.Linq.Enumerable.Count(questions) == 0)
             {
                 questions = _userService.GetAllQuestions(0);
-                TempData["Error"] = "Es wurden keine Fragen gefunden";
+                TempData["Error"] = "No questions have been found";
             }
             return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
         }
@@ -121,15 +121,15 @@ namespace StackUnderflow.Controllers
                 {
                     if (!_userService.UpdatePassword(editUser.id, editUser.newpassword))
                     {
-                        ModelState.AddModelError("", "Fehler beim Speichern des Passworts");
+                        ModelState.AddModelError("", "Error when saving the password");
                         return View();
                     }
                 }
-                TempData["Info"] = "Benutzeränderungen wurden gespeichert";
+                TempData["Info"] = "User has been saved";
             }
             else
             {
-                ModelState.AddModelError("", "Fehler beim Speichern");
+                ModelState.AddModelError("", "Error updating the user information");
                 return View();
             }
             
@@ -156,7 +156,7 @@ namespace StackUnderflow.Controllers
         [HttpPost]
         public ActionResult Ask(string title, string content)
         {
-            if (_userService.CreateQuestion(User.Identity.Name, title, content))
+            if (title.Length > 0 && _userService.CreateQuestion(User.Identity.Name, title, content))
             {
                 var user = _userService.GetUser(User.Identity.Name);
                 UserViewModel userViewModel = null;
@@ -166,12 +166,12 @@ namespace StackUnderflow.Controllers
                 }
                 var allUsers = _userService.GetAllUsers(0);
                 var questions = _userService.GetAllQuestions(0);
-                TempData["Info"] = "Frage wurde hinzugefügt";
+                TempData["Info"] = "Question has been added";
                 return View("Index", new HomeViewModel(userViewModel, GetUsersViewModelCollection(allUsers), GetQuestionsViewModelCollection(questions)));
             }
             else
             {
-                TempData["Error"] = "Fehler beim Speichern der Frage";
+                TempData["Error"] = "Error when saving the question";
                 return View();
             }
         }
@@ -180,23 +180,25 @@ namespace StackUnderflow.Controllers
         [HttpPost]
         public ActionResult Answer(int question_id, string content)
         {
-            if (_userService.CreateAnswer(User.Identity.Name, question_id, content))
+            var user = _userService.GetUser(User.Identity.Name);
+            UserViewModel userViewModel = null;
+            if (user != null)
             {
-                var user = _userService.GetUser(User.Identity.Name);
-                UserViewModel userViewModel = null;
-                if (user != null)
-                {
-                    userViewModel = new UserViewModel(user);
-                }
-                var question = new QuestionViewModel(_userService.GetQuestion(question_id));
-                var answers = _userService.GetAllAnswers(question_id, 0);
-                TempData["Info"] = "Antwort wurde hinzugefügt";
+                userViewModel = new UserViewModel(user);
+            }
+            var question = new QuestionViewModel(_userService.GetQuestion(question_id));
+            var answers = _userService.GetAllAnswers(question_id, 0);
+
+            if (content.Length > 0 && _userService.CreateAnswer(User.Identity.Name, question_id, content))
+            {
+                answers = _userService.GetAllAnswers(question_id, 0);
+                TempData["Info"] = "Answer has been added";
                 return View("Details", new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
             }
             else
             {
-                TempData["Error"] = "Fehler beim Speichern der Antwort";
-                return View("Details");
+                TempData["Error"] = "Error when saving the answer";
+                return View("Details", new DetailsViewModel(userViewModel, question, GetAnswersViewModelCollection(answers)));
             }
         }
 
